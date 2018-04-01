@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "703431766420",
+    "firebase_url": "https://taxii-188d8.firebaseio.com",
+    "project_id": "taxii-188d8",
+    "storage_bucket": "taxii-188d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703431766420:android:0a88c6e3d62a6dcc",
+        "android_client_info": {
+          "package_name": "com.example.user.taxii"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703431766420-moaj29t213o4nrg6s9dhaptb9g231krc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.user.taxii",
+            "certificate_hash": "f1a1bc3451bd9f9f1bf6a67c4b2819b18fb31235"
+          }
+        },
+        {
+          "client_id": "703431766420-rpv0lns7vsb0pdvnc92jhv0iusbhuib1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXS51m-KIqurv3VDx52UKGgPuFDrPjH9I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703431766420-rpv0lns7vsb0pdvnc92jhv0iusbhuib1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
