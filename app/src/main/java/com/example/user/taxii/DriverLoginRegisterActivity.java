@@ -83,7 +83,73 @@ public class DriverLoginRegisterActivity extends AppCompatActivity {
                 RegisterDriver(email, password);
             }
         });
+
+
+        //if someone click on the driver login button
+        DriverLoginButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //get the email and the password from the user
+                String email = EmailDriver.getText().toString();
+                String password = PasswordDriver.getText().toString();
+
+                SignInDriver(email, password);
+            }
+        });
+
     }
+
+
+
+    //this is the sign in driver method
+    private void SignInDriver(String email, String password)
+    {
+        //validations- forget to write the email
+        if (TextUtils.isEmpty(email))
+        {
+            Toast.makeText(DriverLoginRegisterActivity.this, "Please enter the Email...", Toast.LENGTH_SHORT).show();
+        }
+
+        if (TextUtils.isEmpty(password))
+        {
+            Toast.makeText(DriverLoginRegisterActivity.this, "Please enter the Password...", Toast.LENGTH_SHORT).show();
+        }
+
+        else
+        {
+
+            loadingBar.setTitle("Driver Login");
+            loadingBar.setMessage("Please wait, While we are checking your credentials");
+            loadingBar.show();
+
+            //authentication(fire base auth is necessary)
+            //then create the user
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>()
+                    {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task)
+                        {
+                            if (task.isSuccessful())
+                            {
+                                Toast.makeText(DriverLoginRegisterActivity.this, "Driver Logged in Successfully...", Toast.LENGTH_SHORT).show();
+                                loadingBar.dismiss();
+                            }
+
+                            else
+                            {
+                                Toast.makeText(DriverLoginRegisterActivity.this, "Something gone wrong...", Toast.LENGTH_SHORT).show();
+                                loadingBar.dismiss();
+                            }
+                        }
+                    });
+
+        }
+    }
+
+
 
 
     //this is the register driver method
