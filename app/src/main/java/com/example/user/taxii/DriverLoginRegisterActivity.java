@@ -138,7 +138,6 @@ public class DriverLoginRegisterActivity extends AppCompatActivity {
                                 Toast.makeText(DriverLoginRegisterActivity.this, "Driver Logged in Successfully...", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
 
-                                //allow driver to go in to the map activity
                                 Intent driverIntent = new Intent(DriverLoginRegisterActivity.this, DriversMapActivity.class);
                                 startActivity(driverIntent);
                             }
@@ -191,7 +190,6 @@ public class DriverLoginRegisterActivity extends AppCompatActivity {
                                 Toast.makeText(DriverLoginRegisterActivity.this, "Driver Registered Successfully...", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
 
-                                //allow driver to go in to the map activity
                                 Intent driverIntent = new Intent(DriverLoginRegisterActivity.this, DriversMapActivity.class);
                                 startActivity(driverIntent);
                             }
