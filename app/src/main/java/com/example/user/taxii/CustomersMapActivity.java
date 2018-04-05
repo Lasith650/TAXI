@@ -43,8 +43,15 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
 
     private Button CustomerLogoutButton;
 
+    private Button CallCabCarButton;
+    private String customerID;
+    private LatLng CustomerPickupLocation;
+
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private DatabaseReference CustomerDatabaseRef;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +60,13 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        customerID = currentUser.getUid();
+        CustomerDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Customers Requests");
 
 
         CustomerLogoutButton = (Button) findViewById(R.id.customer_logout_btn);
+
+        CallCabCarButton = (Button) findViewById(R.id.cstomers_call_cab_btn);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -68,6 +79,19 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
 
                 mAuth.signOut();
                 LogoutCustomer();
+            }
+        });
+
+
+        CallCabCarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GeoFire geoFire = new GeoFire(CustomerDatabaseRef);
+                geoFire.setLocation(customerID, new GeoLocation(lastLocation.getLatitude(), lastLocation.getLongitude()));
+
+                CustomerPickupLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(CustomerPickupLocation).title("PickUp Customer From Here"));
+                
             }
         });
 
