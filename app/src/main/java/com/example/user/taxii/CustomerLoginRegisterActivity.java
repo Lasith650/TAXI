@@ -1,6 +1,7 @@
 package com.example.user.taxii;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -129,6 +130,9 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity
                             {
                                 Toast.makeText(CustomerLoginRegisterActivity.this, "Customer Logged in Successfully...", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
+
+                                Intent driverIntent = new Intent(CustomerLoginRegisterActivity.this, CustomersMapActivity.class);
+                                startActivity(driverIntent);
                             }
 
                             else
@@ -173,6 +177,9 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity
                             {
                                 Toast.makeText(CustomerLoginRegisterActivity.this, "Customer Registered Successfully...", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
+
+                                Intent driverIntent = new Intent(CustomerLoginRegisterActivity.this, CustomersMapActivity.class);
+                                startActivity(driverIntent);
                             }
 
                             else
