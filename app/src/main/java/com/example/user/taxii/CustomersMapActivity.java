@@ -1,5 +1,6 @@
 package com.example.user.taxii;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -7,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
@@ -20,6 +23,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -36,17 +41,42 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
     Location lastLocation;
     LocationRequest locationRequest;
 
+    private Button CustomerLogoutButton;
 
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customers_map);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
+
+        CustomerLogoutButton = (Button) findViewById(R.id.customer_logout_btn);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        CustomerLogoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mAuth.signOut();
+                LogoutCustomer();
+            }
+        });
+
     }
+
+
+
+
+
 
 
 
@@ -120,5 +150,17 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+
+    private void LogoutCustomer() {
+
+        Intent welcomeIntent = new Intent(CustomersMapActivity.this, WelcomeActivity.class);
+        //to kill the driver map activity once te ser clicks on the logout btn
+        welcomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        startActivity(welcomeIntent);
+        finish();
+
     }
 }
