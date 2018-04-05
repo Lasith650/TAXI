@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -50,6 +51,8 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private DatabaseReference CustomerDatabaseRef;
+    private DatabaseReference DriverLocationRef;
+    private int radius = 1;
 
 
 
@@ -62,6 +65,7 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
         currentUser = mAuth.getCurrentUser();
         customerID = currentUser.getUid();
         CustomerDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Customers Requests");
+        DriverLocationRef = FirebaseDatabase.getInstance().getReference().child("Drivers Available");
 
 
         CustomerLogoutButton = (Button) findViewById(R.id.customer_logout_btn);
@@ -91,7 +95,13 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
 
                 CustomerPickupLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
                 mMap.addMarker(new MarkerOptions().position(CustomerPickupLocation).title("PickUp Customer From Here"));
-                
+
+
+                //when the cab is called
+                CallCabCarButton.setText("Finding your TAXI");
+                //method which will get the closest driver
+                GetClosestDriverCab();
+
             }
         });
 
@@ -99,9 +109,14 @@ public class CustomersMapActivity extends FragmentActivity implements OnMapReady
 
 
 
+    private void GetClosestDriverCab() {
 
+        //get the reference from the driver availability node
+        GeoFire geoFire = new GeoFire(DriverLocationRef);
 
+        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(CustomerPickupLocation.latitude, CustomerPickupLocation.longitude),radius);
 
+    }
 
 
     @Override
