@@ -147,7 +147,9 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity
                             {
                                 Toast.makeText(CustomerLoginRegisterActivity.this, "Something gone wrong...", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
+                                
                             }
+
                         }
                     });
         }
