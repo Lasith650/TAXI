@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class CustomerLoginRegisterActivity extends AppCompatActivity
 {
@@ -29,6 +31,9 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity
     private ProgressDialog loadingBar;
 
     private FirebaseAuth mAuth;
+
+    private DatabaseReference CustomerDatabaseRef;
+    private String onlineCustomerID;
 
 
     @Override
@@ -47,6 +52,7 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity
         loadingBar = new ProgressDialog(this);
 
         mAuth = FirebaseAuth.getInstance();
+
 
 
         CustomerRegisterButton.setVisibility(View.INVISIBLE);
@@ -128,11 +134,13 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity
                         {
                             if (task.isSuccessful())
                             {
+                                Intent driverIntent = new Intent(CustomerLoginRegisterActivity.this, CustomersMapActivity.class);
+                                startActivity(driverIntent);
+
                                 Toast.makeText(CustomerLoginRegisterActivity.this, "Customer Logged in Successfully...", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
 
-                                Intent driverIntent = new Intent(CustomerLoginRegisterActivity.this, CustomersMapActivity.class);
-                                startActivity(driverIntent);
+
                             }
 
                             else
@@ -175,11 +183,19 @@ public class CustomerLoginRegisterActivity extends AppCompatActivity
                         {
                             if (task.isSuccessful())
                             {
-                                Toast.makeText(CustomerLoginRegisterActivity.this, "Customer Registered Successfully...", Toast.LENGTH_SHORT).show();
-                                loadingBar.dismiss();
+                                onlineCustomerID = mAuth.getCurrentUser().getUid();
+                                CustomerDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(onlineCustomerID);
+
+
+                                CustomerDatabaseRef.setValue(true);
 
                                 Intent driverIntent = new Intent(CustomerLoginRegisterActivity.this, CustomersMapActivity.class);
                                 startActivity(driverIntent);
+
+                                Toast.makeText(CustomerLoginRegisterActivity.this, "Customer Registered Successfully...", Toast.LENGTH_SHORT).show();
+                                loadingBar.dismiss();
+
+
                             }
 
                             else
